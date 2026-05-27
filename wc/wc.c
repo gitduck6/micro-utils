@@ -73,9 +73,9 @@ int main (int argc, char **argv)
             }
             else
             {
-                if ((fp = fopen(*argv,'r')) == NULL)
+                if ((fp = fopen(*argv,"r")) == NULL)
                 {
-                    perror(fopen);
+                    perror("fopen");
                     argv++;
                     continue;
                 }
@@ -93,13 +93,23 @@ int main (int argc, char **argv)
     while (*argv);
 }
 
+int get_bytes(FILE* fd)
+{
+    size_t byte_count = 0;
+
+    for (;fgetc(fd) != EOF;byte_count++);
+
+    return byte_count;
+}
+
 int wc_handler(FILE *fd)
 {
     if (cflag)
     {
-        get_bytes(fd);
+        printf("%d ", get_bytes(fd));
     }
 
+    /*
     if (mflag)
     {
         get_chars(fd);
@@ -119,6 +129,6 @@ int wc_handler(FILE *fd)
     {
         get_longest_line(fd);
     }
-
+    */
     return 0;
 }
