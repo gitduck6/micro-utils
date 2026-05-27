@@ -59,6 +59,12 @@ int main (int argc, char **argv)
         }
     }
 
+    // Default options
+    if (!cflag || !wflag || !lflag || !mflag || !Lflag)
+    {
+        cflag = wflag = lflag = 1;
+    }
+
     argc -= optind;
     argv += optind;
 
@@ -111,6 +117,18 @@ size_t get_bytes(FILE* fd)
     return byte_count;
 }
 
+size_t get_lines(FILE* fd)
+{
+    // ill just get this as the amount of newline characters + 1
+    size_t line_count = 1;
+
+    for (int c;(c = fgetc(fd) != EOF);)
+    {
+        if (c == '\n') line_count++;
+    }
+    return line_count;
+}
+
 int wc_handler(FILE *fd)
 {
     if (cflag)
@@ -124,12 +142,15 @@ int wc_handler(FILE *fd)
     {
         get_chars(fd);
     }
+    */
 
     if (lflag)
     {
-        get_lines(fd);
+        printf("%d ",get_lines(fd));
+        rewind(fd);
     }
 
+    /*
     if (wflag)
     {
         get_words(fd);
@@ -140,6 +161,8 @@ int wc_handler(FILE *fd)
         get_longest_line(fd);
     }
     */
+
+    fputc('\n',stdout);
     return 0;
 }
 
