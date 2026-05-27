@@ -25,6 +25,7 @@ static size_t get_words(FILE *fd);
 static size_t get_longest_line(FILE *fd);
 
 int wc_handler(FILE *fd);
+void usage(char* executable_name);
 
 int main (int argc, char **argv)
 {
@@ -53,7 +54,7 @@ int main (int argc, char **argv)
             break;
             
         default:
-            wflag = cflag = lflag = 1;
+            usage(*argv);
             break;
         }
     }
@@ -140,4 +141,10 @@ int wc_handler(FILE *fd)
     }
     */
     return 0;
+}
+
+void usage(char* executable_name)
+{
+    fprintf(stderr,"Usage: %s [-cmlwL]",executable_name);
+    exit(1);
 }
