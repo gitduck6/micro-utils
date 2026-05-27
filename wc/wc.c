@@ -18,11 +18,11 @@ int lflag = 0;
 int wflag = 0;
 int Lflag = 0;
 
-static int get_bytes(FILE *fd);
-static int get_chars(FILE *fd);
-static int get_lines(FILE *fd);
-static int get_words(FILE *fd);
-static int get_longest_line(FILE *fd);
+static size_t get_bytes(FILE *fd);
+static size_t get_chars(FILE *fd);
+static size_t get_lines(FILE *fd);
+static size_t get_words(FILE *fd);
+static size_t get_longest_line(FILE *fd);
 
 int wc_handler(FILE *fd);
 
@@ -65,6 +65,12 @@ int main (int argc, char **argv)
     {
         FILE* fp = stdin;
 
+        if (argc == 0)
+        {
+            wc_handler(fp);
+            break;
+        }
+
         if (*argv)
         {
             if (!strcmp(*argv, "-")) // Unix special case for stdin
@@ -91,9 +97,11 @@ int main (int argc, char **argv)
 
     }
     while (*argv);
+
+    return 0;
 }
 
-int get_bytes(FILE* fd)
+size_t get_bytes(FILE* fd)
 {
     size_t byte_count = 0;
 
@@ -107,6 +115,7 @@ int wc_handler(FILE *fd)
     if (cflag)
     {
         printf("%d ", get_bytes(fd));
+        rewind(fd);
     }
 
     /*
