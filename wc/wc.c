@@ -127,20 +127,22 @@ int wc_handler(FILE *fd, char* filename)
         
         // For -L
 
-        if (current_line_len > longest_line_length) 
-            longest_line_length = current_line_len;
-
+        
         if (c == '\n')
         {
             current_line_len = 0;
         }
-
+        else
+        current_line_len++;
+        
+        if (current_line_len > longest_line_length) 
+            longest_line_length = current_line_len;
+            
         // For -w
         if (isspace(previous_character) && !isspace(c)) word_count++;
 
         
         // ----
-        current_line_len++;
         previous_character = c;
     }
 
