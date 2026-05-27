@@ -16,6 +16,8 @@
 
 #define _DEFAULT_SOURCE
 
+#define HELP_OPTION "--help"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,12 +30,16 @@ int lflag = 0;
 int wflag = 0;
 int Lflag = 0;
 
-
 int wc_handler(FILE *fd, char* filename);
 void usage(char* executable_name);
+void help(void);
 
 int main (int argc, char **argv)
 {
+
+    if (!strcmp(HELP_OPTION,argv[1])) 
+        help();
+
     int c;
     while ((c = getopt(argc,argv,"cmlwL")) != -1)
     {
@@ -171,4 +177,31 @@ void usage(char* executable_name)
 {
     fprintf(stderr,"Usage: %s [-cmlwL]",executable_name);
     exit(1);
+}
+
+void help(void)
+{
+    char help_msg[] = 
+    "--Micro utils wc - print newline, word, and byte counts for each file\n"
+    "Usage: wc [OPTIONS] filename\n"
+    "-c\n"
+    "\tprint byte count\n"
+
+    "-m\n"
+    "\tprint character count (Not implemented)\n"
+
+    "-l\n"
+    "\tprint line count\n"
+
+    "-L\n"
+    "\tprint length of the longest line\n"
+
+    "-w\n"
+    "\tprint word count\n"
+    "----\n"
+    "Report bugs to: https://github.com/gitduck6/micro-utils\n"
+    ;
+
+    printf("%s",help_msg);
+    exit(0);
 }
