@@ -18,11 +18,13 @@ int lflag = 0;
 int wflag = 0;
 int Lflag = 0;
 
-int get_bytes(FILE *fd);
-int get_chars(FILE *fd);
-int get_lines(FILE *fd);
-int get_words(FILE *fd);
-int get_longest_line(FILE *fd);
+static int get_bytes(FILE *fd);
+static int get_chars(FILE *fd);
+static int get_lines(FILE *fd);
+static int get_words(FILE *fd);
+static int get_longest_line(FILE *fd);
+
+int wc_handler(FILE *fd);
 
 int main (int argc, char **argv)
 {
@@ -80,6 +82,8 @@ int main (int argc, char **argv)
             }
         }
         
+        (void)wc_handler(fp);
+
         if (fp != stdin)
             fclose(fp);
 
@@ -87,4 +91,34 @@ int main (int argc, char **argv)
 
     }
     while (*argv);
+}
+
+int wc_handler(FILE *fd)
+{
+    if (cflag)
+    {
+        get_bytes(fd);
+    }
+
+    if (mflag)
+    {
+        get_chars(fd);
+    }
+
+    if (lflag)
+    {
+        get_lines(fd);
+    }
+
+    if (wflag)
+    {
+        get_words(fd);
+    }
+
+    if (Lflag)
+    {
+        get_longest_line(fd);
+    }
+
+    return 0;
 }
