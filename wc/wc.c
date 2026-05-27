@@ -113,7 +113,9 @@ int wc_handler(FILE *fd, char* filename)
     size_t longest_line_length = 0;
     size_t character_count = 0;
 
+    // Helper variables
     char previous_character = ' ';
+    size_t current_line_len = 0;
 
     for (int c; (c = fgetc(fd))!= EOF;)
     {
@@ -122,12 +124,27 @@ int wc_handler(FILE *fd, char* filename)
 
         // For -l
         if (c == '\n') line_count++;
+        
+        // For -L
+
+        if (current_line_len > longest_line_length) 
+            longest_line_length = current_line_len;
+
+        if (c == '\n')
+        {
+            current_line_len = 0;
+        }
 
         // For -w
         if (isspace(previous_character) && !isspace(c)) word_count++;
 
+        
+        // ----
+        current_line_len++;
         previous_character = c;
     }
+
+    fputc(' ',stdout);
 
     if (cflag) printf("%d ",byte_count);
     if (lflag) printf("%d ",line_count);
