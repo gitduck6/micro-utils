@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <unistd.h>
 
 int cflag = 0;
@@ -112,11 +113,20 @@ int wc_handler(FILE *fd, char* filename)
     size_t longest_line_length = 0;
     size_t character_count = 0;
 
+    char previous_character = ' ';
+
     for (int c; (c = fgetc(fd))!= EOF;)
     {
+        // For -c
         byte_count++;
 
+        // For -l
         if (c == '\n') line_count++;
+
+        // For -w
+        if (isspace(previous_character) && !isspace(c)) word_count++;
+
+        previous_character = c;
     }
 
     if (cflag) printf("%d ",byte_count);
