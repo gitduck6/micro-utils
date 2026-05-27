@@ -2,6 +2,15 @@
     * A minimal implementation of unix wc - word count
     * the flags i intend to add: -cmlwL 
     * 
+    * Date: May 27 2026
+    * 
+    * This took some time but is relatively basic,
+    * also i didnt implement the -m flag
+    * had to account for character encodings etc, i was too lazy
+    * but aside from that, it is rather functional. 
+    * 
+    * contributions are welcome! :)
+    * 
 \*/
 
 
@@ -137,7 +146,7 @@ int wc_handler(FILE *fd, char* filename)
         
         if (current_line_len > longest_line_length) 
             longest_line_length = current_line_len;
-            
+
         // For -w
         if (isspace(previous_character) && !isspace(c)) word_count++;
 
