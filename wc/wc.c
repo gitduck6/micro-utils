@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 int cflag = 0;
@@ -57,4 +58,33 @@ int main (int argc, char **argv)
 
     argc -= optind;
     argv += optind;
+
+    do
+    {
+        FILE* fp = stdin;
+
+        if (*argv)
+        {
+            if (!strcmp(*argv, "-")) // Unix special case for stdin
+            {
+                fp = stdin;
+            }
+            else
+            {
+                if ((fp = fopen(*argv,'r')) == NULL)
+                {
+                    perror(fopen);
+                    argv++;
+                    continue;
+                }
+            }
+        }
+        
+        if (fp != stdin)
+            fclose(fp);
+
+        argv++;
+
+    }
+    while (*argv);
 }
