@@ -18,13 +18,8 @@ int lflag = 0;
 int wflag = 0;
 int Lflag = 0;
 
-static size_t get_bytes(FILE *fd);
-static size_t get_chars(FILE *fd);
-static size_t get_lines(FILE *fd);
-static size_t get_words(FILE *fd);
-static size_t get_longest_line(FILE *fd);
 
-int wc_handler(FILE *fd);
+int wc_handler(FILE *fd, char* filename);
 void usage(char* executable_name);
 
 int main (int argc, char **argv)
@@ -60,7 +55,7 @@ int main (int argc, char **argv)
     }
 
     // Default options
-    if (!cflag || !wflag || !lflag || !mflag || !Lflag)
+    if (!cflag && !wflag && !lflag && !mflag && !Lflag)
     {
         cflag = wflag = lflag = 1;
     }
@@ -74,7 +69,7 @@ int main (int argc, char **argv)
 
         if (argc == 0)
         {
-            wc_handler(fp);
+            wc_handler(fp,NULL);
             break;
         }
 
@@ -95,7 +90,7 @@ int main (int argc, char **argv)
             }
         }
         
-        (void)wc_handler(fp);
+        (void)wc_handler(fp,*argv);
 
         if (fp != stdin)
             fclose(fp);
@@ -108,61 +103,29 @@ int main (int argc, char **argv)
     return 0;
 }
 
-size_t get_bytes(FILE* fd)
-{
+int wc_handler(FILE *fd, char* filename)
+{   
+
     size_t byte_count = 0;
-
-    for (;fgetc(fd) != EOF;byte_count++);
-
-    return byte_count;
-}
-
-size_t get_lines(FILE* fd)
-{
-    // ill just get this as the amount of newline characters + 1
     size_t line_count = 1;
+    size_t word_count = 0;
+    size_t longest_line_length = 0;
+    size_t character_count = 0;
 
-    for (int c;(c = fgetc(fd) != EOF);)
+    for (int c; (c = fgetc(fd))!= EOF;)
     {
+        byte_count++;
+
         if (c == '\n') line_count++;
     }
-    return line_count;
-}
 
-int wc_handler(FILE *fd)
-{
-    if (cflag)
-    {
-        printf("%d ", get_bytes(fd));
-        rewind(fd);
-    }
+    if (cflag) printf("%d ",byte_count);
+    if (lflag) printf("%d ",line_count);
+    if (wflag) printf("%d ",word_count);
+    if (Lflag) printf("%d ",longest_line_length);
+    if (mflag) printf("%d ",character_count);
 
-    /*
-    if (mflag)
-    {
-        get_chars(fd);
-    }
-    */
-
-    if (lflag)
-    {
-        printf("%d ",get_lines(fd));
-        rewind(fd);
-    }
-
-    /*
-    if (wflag)
-    {
-        get_words(fd);
-    }
-
-    if (Lflag)
-    {
-        get_longest_line(fd);
-    }
-    */
-
-    fputc('\n',stdout);
+    if (filename) printf("- %s",filename);
     return 0;
 }
 
