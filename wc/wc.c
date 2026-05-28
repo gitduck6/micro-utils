@@ -37,7 +37,7 @@ void help(void);
 int main (int argc, char **argv)
 {
 
-    if (!strcmp(HELP_OPTION,argv[1])) 
+    if ((argv[1] != NULL) && !strcmp(HELP_OPTION,argv[1])) 
         help();
 
     int c;
