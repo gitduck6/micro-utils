@@ -4,7 +4,6 @@
     * 
     * Date: May 29 2026
     * 
-    * 
 \*/
 
 #define _DEFAULT_SOURCE
@@ -12,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 void usage(char * executable_name);
 char *getcwd_dynamic(void);
@@ -62,15 +62,23 @@ char *getcwd_dynamic(void)
 
     while (getcwd(dirname,size) == NULL)
     {
-        size *= 2;
-        char * temp = realloc(dirname,64);
-        if (!temp)
+        if (errno == ERANGE)
         {
-            perror("malloc");
+            size *= 2;
+            char * temp = realloc(dirname,64);
+            if (!temp)
+            {
+                perror("malloc");
+                free(dirname);
+                exit(3);
+            }
+            dirname = temp;
+        } else
+        {
+            perror("getcwd");
             free(dirname);
-            exit(3);
+            exit(4);
         }
-        dirname = temp;
     }
 
     return dirname;
