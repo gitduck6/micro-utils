@@ -37,6 +37,15 @@ void help(void);
 int main (int argc, char **argv)
 {
 
+//Restricted syscalls for OpenBSD
+#ifdef __OpenBSD__
+   if (pledge("stdio rpath", NULL) == 1)
+   {
+      perror("pledge");
+      exit(1);
+   }
+#endif
+   
     if ((argv[1] != NULL) && !strcmp(HELP_OPTION,argv[1])) 
         help();
 
@@ -169,7 +178,7 @@ int wc_handler(FILE *fd, char* filename)
     if (Lflag) printf("%d ",longest_line_length);
     if (mflag) printf("%d ",character_count);
 
-    if (filename) printf("- %s",filename);
+    if (filename) printf("- %s\n",filename);
     return 0;
 }
 
