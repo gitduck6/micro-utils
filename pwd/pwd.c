@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 void usage(char * executable_name);
+char *getcwd_dynamic(void);
 
 char physical = 0;
 
@@ -19,21 +20,49 @@ int main(int argc, char ** argv)
 {
     int c;
     while ( (c = getopt(argc,argv,"LP")) != -1)
-    {switch (c)
     {
-    case 'L':
-        physical = 0;
-        break;
-    case 'P':
-        physical = 1;
-        break;
-    default:
-        usage(*argv);
-        break;
-    }}
+        switch (c)
+        {
+        case 'L':
+            physical = 0;
+            break;
+        case 'P':
+            physical = 1;
+            break;
+        default:
+            usage(*argv);
+            break;
+        }
+    }
+
+    if (physical)
+    {
+        printf("%s\n", getcwd_dynamic());
+    }
+    else
+    {
+        printf("%s\n", getenv("PWD"));
+    }
+
+    return 0;
+}
+
+char *getcwd_dynamic(void)
+{
+    size_t size = 64;
+    char * dirname = malloc(size);
+
+    while (getcwd(dirname,size) == NULL)
+    {
+        size *= 2;
+        dirname = realloc(dirname,64);
+    }
+
+    return dirname;
 }
 
 void usage(char * executable_name)
 {
-    printf("Usage: %s [-LP]\n",executable_name)
+    printf("Usage: %s [-LP]\n",executable_name);
+    exit(1);
 }
