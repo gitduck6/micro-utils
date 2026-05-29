@@ -4,6 +4,22 @@
     * 
     * Date: May 29 2026
     * 
+    * Hello! This software intends to be simple and read understandable for the reader
+    * so if any parts are too messy, PRs and issues are greatly appreciated.
+    * 
+    * The is rather straight forward, set the physical variable based on the flags,
+    * then return a value accordingly
+    * 
+    * the only kinda special part of the software is the getcwd_dynamic
+    * the function. I believe it has a more standart alternative called
+    * get_current_dir_name(), this alternative is a GNU special function
+    * 
+    * since i plan to make the software as unix portable as possible 
+    * i didnt include a function from a foundation literally named Gnu NOT UNIX
+    * (ofc this is a joke, but adding a gnu extention makes the software less portable)
+    * 
+    * The functions logic is as follows:
+    * do getcwd, if it fails due to the buffer being too small, make a larger buffer and try again
 \*/
 
 #define _DEFAULT_SOURCE
@@ -62,6 +78,7 @@ char *getcwd_dynamic(void)
 
     while (getcwd(dirname,size) == NULL)
     {
+        // ERANGE is set when size isnt large enough for the cwd length
         if (errno == ERANGE)
         {
             size *= 2;
