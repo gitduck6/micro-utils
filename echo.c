@@ -5,7 +5,7 @@ int main(int argc, char *argv[1]){
 if (argc < 2)
   return 0;
   
-ifdef __OpenBSD__
+#ifdef __OpenBSD__
 #include <stdlib.h>
 #include <unistd.h>
 
