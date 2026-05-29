@@ -3,6 +3,8 @@
     * Supported flags: -LP
     * 
     * Date: May 29 2026
+    * 
+    * 
 \*/
 
 #define _DEFAULT_SOURCE
@@ -52,10 +54,23 @@ char *getcwd_dynamic(void)
     size_t size = 64;
     char * dirname = malloc(size);
 
+    if (!dirname)
+    {
+        perror("malloc");
+        exit(2);
+    }
+
     while (getcwd(dirname,size) == NULL)
     {
         size *= 2;
-        dirname = realloc(dirname,64);
+        char * temp = realloc(dirname,64);
+        if (!temp)
+        {
+            perror("malloc");
+            free(dirname);
+            exit(3);
+        }
+        dirname = temp;
     }
 
     return dirname;
