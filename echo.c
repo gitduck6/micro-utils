@@ -4,7 +4,7 @@
 int main(int argc, char *argv[1]){
 if (argc < 2)
   return 0;
-
+  
 ifdef __OpenBSD__
 #include <stdlib.h>
 #include <unistd.h>
@@ -14,13 +14,25 @@ ifdef __OpenBSD__
     exit(1);
   }
 #endif
-
+int a = 1;
+int arg_count = argc;
+  
   if (strcmp(argv[1], "-n") == 0){
-    printf("%s", argv[2]);
+    a += 1;
+    while(arg_count > 2){
+      printf("%s", argv[a]);
+      arg_count -= 1;
+      a += 1;
   }
-
+  }
   else{
-    printf("%s\n", argv[1]);
+    while(arg_count > 1){
+      printf("%s", argv[a]);
+      if (arg_count == 2){
+        printf("\n");
+      }
+      arg_count -= 1;
+      a += 1;
   }
 return 0;
 }
