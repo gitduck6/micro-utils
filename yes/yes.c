@@ -1,18 +1,27 @@
 #include <stdio.h>
-#include <string.h>
 
-int main(int argc, char *argv[1]){
 #ifdef __OpenBSD__
 #include <stdlib.h>
 #include <unistd.h>
-  if(pledge("stdio", NULL) ==1){
-    perror("pledge");
-    exit(1);
-  }
 #endif
+
+int main(int argc, char *argv[1]){
+  #ifdef __OpenBSD__
+
+    if(pledge("stdio", NULL) ==1){
+      perror("pledge");
+      exit(1);
+    }
+  #endif
+
+  char * word;
+
   if (argc < 2)
-    return 0;
-while (1 ==1){
-  printf("%s\n", argv[1]);
+    word = "y";
+  else word = argv[1];
+
+  while (1 == 1){
+    printf("%s\n", word);
+  }
+return 0;
 }
-return 0;}
