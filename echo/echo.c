@@ -1,13 +1,24 @@
+/*
+  * uhh sorry if this code is a bit obfusc, my friend made it.
+  * but it is good practice to read through cryptic code sometimes
+  * it gives you pattern recognition or something
+  * 
+  * I mean it DOES work with the tests i did :)
+*/
+
 #include <stdio.h> 
 #include <string.h>
+
+#ifdef __OpenBSD__
+#include <stdlib.h>
+#include <unistd.h>
+#endif
 
 int main(int argc, char *argv[1]){
 if (argc < 2)
   return 0;
   
 #ifdef __OpenBSD__
-#include <stdlib.h>
-#include <unistd.h>
 
   if (pledge("stdio", NULL) == 1){
     perror("pledge");
