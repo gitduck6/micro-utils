@@ -11,9 +11,13 @@
     * s: squeeze every repeated blank line [Implemented]
     * u: ignored,
     * apparently matters but gnu has it ignored so ill do the same
-    * v: shows every character in the ^M notation, for all nonprinting characters except TAB and LFD
-    * t: same as v but prints TAB too
-    * e: v but displays a $ at the end of each line
+    * v: shows every character in the ^M notation, for all nonprinting characters except TAB and LFD [Implemented]
+    * t: same as v but prints TAB too [Implemented]
+    * e: v but displays a $ at the end of each line [Implemented]
+    * 
+    * The logic is messy and checks everything so is prolly kinda slow, but it works
+    * 
+    * fp_cat() function does every part based on how the flags are given, i hope its readible
 */
 
 #define _DEFAULT_SOURCE
