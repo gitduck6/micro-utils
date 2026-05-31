@@ -88,6 +88,11 @@ void args(char **argv)
                 continue;
             }
         }
+        else 
+        {
+            fp_cat(fp);
+            return;
+        }
 
         fp_cat(fp);
 
