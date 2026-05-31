@@ -64,6 +64,8 @@ int main(int argc,char ** argv)
 
     argv += optind;
 
+    args(argv);
+
     return 0;
 }
 
@@ -87,12 +89,12 @@ void args(char **argv)
             }
         }
 
+        fp_cat(fp);
+
         if (fp != stdin)
         {
             fclose(fp);
         }
-
-        fp_cat(fp);
 
         argv++;
     } while (*argv != NULL);
