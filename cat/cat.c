@@ -19,8 +19,12 @@
 #define _DEFAULT_SOURCE
 
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+void args(char **argv);
+void fp_cat(FILE *fp);
 
 int bflag = 0, eflag = 0, nflag = 0, sflag = 0, tflag = 0, vflag = 0;
 
@@ -50,6 +54,7 @@ int main(int argc,char ** argv)
             /*gonna do nothing*/
             break;
         case 'v':
+            vflag = 1;
             break;
         
         default:
@@ -57,5 +62,35 @@ int main(int argc,char ** argv)
         }
     }
 
+    argv += optind;
+
     return 0;
+}
+
+
+void args(char **argv)
+{
+    FILE * fp = stdin;
+    do
+    {
+        if (*argv)
+        {
+            if (!strcmp("-",*argv)) // Unix special case for stdin
+            {
+                fp = stdin;
+            }
+            else if ((fp = fopen(*argv,"r")) == NULL)
+            {
+                perror("fopen");
+                argv++;
+                continue;
+            }
+        }
+
+        if (fp != stdin)
+        {
+            fclose(fp);
+        }
+        argv++;
+    } while (*argv != NULL)
 }
