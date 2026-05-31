@@ -17,6 +17,7 @@
 */
 
 #define _DEFAULT_SOURCE
+#define DEL (char)127
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -74,15 +75,36 @@ int main(int argc,char ** argv)
 
 void print_nonprintable(char c)
 {
-    if (c <= 31)
+    if (c == '\n')
+    {
+        if (eflag)
+        {
+            fputc('$',stdout);
+            fputc('\n',stdout);
+        }
+    }
+    else if ((c == '\t') && (tflag))
     {
         fputc('^',stdout);
         fputc(c + 64,stdout);
     } 
-    else if (c == 127)
+    else if (c <= 31)
+    {
+        fputc('^',stdout);
+        fputc(c + 64,stdout);
+    } 
+    else if (c == DEL)
     {
         fputc('^',stdout);
         fputc('?',stdout);
+    }
+    else if (c == '\n')
+    {
+        if (eflag)
+        {
+            fputc('$',stdout);
+            fputc('\n',stdout);
+        }
     }
     else
     {
