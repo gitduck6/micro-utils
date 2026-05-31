@@ -25,6 +25,7 @@
 
 void args(char **argv);
 void fp_cat(FILE *fp);
+void print_nonprintable(char c);
 
 int bflag = 0, eflag = 0, nflag = 0, sflag = 0, tflag = 0, vflag = 0;
 
@@ -39,7 +40,7 @@ int main(int argc,char ** argv)
             bflag = 1;
             break;
         case 'e':
-            eflag = 1;
+            vflag = eflag = 1;
             break;
         case 'n':
             nflag = 1;
@@ -48,7 +49,7 @@ int main(int argc,char ** argv)
             sflag = 1;
             break;
         case 't':
-            tflag = 1;
+            vflag = tflag = 1;
             break;
         case 'u':
             /*gonna do nothing*/
@@ -71,6 +72,24 @@ int main(int argc,char ** argv)
     return 0;
 }
 
+void print_nonprintable(char c)
+{
+    if (c <= 31)
+    {
+        fputc('^',stdout);
+        fputc(c + 64,stdout);
+    } 
+    else if (c == 127)
+    {
+        fputc('^',stdout);
+        fputc('?',stdout);
+    }
+    else
+    {
+        fputc(c,stdout);
+    }
+
+}
 
 void args(char **argv)
 {
@@ -140,7 +159,12 @@ void fp_cat(FILE *fp)
                 continue;
         }
 
-        fputc(c,stdout);
+        if (vflag)
+        {
+            print_nonprintable(c);
+        }
+        else
+            fputc(c,stdout);
         
         prev = c;
         
