@@ -6,11 +6,11 @@
     * 
     * Options: -benstuv
     * Let me go over what every option does
-    * n: number every line
-    * b: number every non blank line, overrides  n
-    * s: squeeze every repeated blank line
+    * n: number every line [Implemented]
+    * b: number every non blank line, overrides  n [Implemented]
+    * s: squeeze every repeated blank line [Implemented]
     * u: ignored,
-    * apparently matters but gnu has it as ignores so ill do the same
+    * apparently matters but gnu has it ignored so ill do the same
     * v: shows every character in the ^M notation, for all nonprinting characters except TAB and LFD
     * t: same as v but prints TAB too
     * e: v but displays a $ at the end of each line
@@ -134,7 +134,12 @@ void fp_cat(FILE *fp)
             }
         }
 
-        
+        if (sflag)
+        {
+            if ((prev == '\n') && (c == '\n'))
+                continue;
+        }
+
         fputc(c,stdout);
         
         prev = c;
