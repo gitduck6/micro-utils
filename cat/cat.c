@@ -91,6 +91,20 @@ void args(char **argv)
         {
             fclose(fp);
         }
+
+        fp_cat(fp);
+
         argv++;
-    } while (*argv != NULL)
+    } while (*argv != NULL);
+
+}
+
+void fp_cat(FILE *fp)
+{
+
+    for (int c;(c = fgetc(fp)) != EOF;)
+    {
+        fputc(c,stdout);
+    }
+    
 }
