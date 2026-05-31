@@ -124,6 +124,17 @@ void fp_cat(FILE *fp)
                 line_num++;
             }
         }
+
+        if (bflag)
+        {
+            if ((prev == '\n') && (c != '\n'))
+            {
+                printf("%6d ",line_num);
+                line_num++;
+            }
+        }
+
+        
         fputc(c,stdout);
         
         prev = c;
