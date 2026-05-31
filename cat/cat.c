@@ -62,6 +62,8 @@ int main(int argc,char ** argv)
         }
     }
 
+    if (bflag) nflag = 0; // -b overwrites -n
+
     argv += optind;
 
     args(argv);
@@ -109,10 +111,23 @@ void args(char **argv)
 
 void fp_cat(FILE *fp)
 {
-
+    int prev = '\n';
+    size_t line_num = 1;
     for (int c;(c = fgetc(fp)) != EOF;)
     {
+        
+        if (nflag)
+        {
+            if (prev == '\n')
+            {
+                printf("%6d ",line_num);
+                line_num++;
+            }
+        }
         fputc(c,stdout);
+        
+        prev = c;
+        
     }
     
 }
