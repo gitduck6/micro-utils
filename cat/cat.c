@@ -100,6 +100,7 @@ void args(char **argv)
         {
             fclose(fp);
         }
+        else clearerr(fp);
 
         argv++;
     } while (*argv != NULL);
