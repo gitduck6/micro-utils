@@ -6,10 +6,11 @@
     * 
     * Options: -benstuv
     * Let me go over what every option does
-    * b: number every non blank line
     * n: number every line
+    * b: number every non blank line, overrides  n
     * s: squeeze every repeated blank line
-    * u: (ignored)
+    * u: ignored,
+    * apparently matters but gnu has it as ignores so ill do the same
     * v: shows every character in the ^M notation, for all nonprinting characters except TAB and LFD
     * t: same as v but prints TAB too
     * e: v but displays a $ at the end of each line
@@ -21,6 +22,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int bflag = 0, eflag = 0, nflag = 0, sflag = 0, tflag = 0, vflag = 0;
+
 int main(int argc,char ** argv)
 {
     int c;
@@ -29,16 +32,22 @@ int main(int argc,char ** argv)
         switch (c)
         {
         case 'b':
+            bflag = 1;
             break;
         case 'e':
+            eflag = 1;
             break;
         case 'n':
+            nflag = 1;
             break;
         case 's':
+            sflag = 1;
             break;
         case 't':
+            tflag = 1;
             break;
         case 'u':
+            /*gonna do nothing*/
             break;
         case 'v':
             break;
