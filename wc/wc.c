@@ -132,7 +132,7 @@ int wc_handler(FILE *fd, char* filename)
 {   
 
     size_t byte_count = 0;
-    size_t line_count = 1;
+    size_t line_count = 0;
     size_t word_count = 0;
     size_t longest_line_length = 0;
     size_t character_count = 0;
@@ -172,11 +172,11 @@ int wc_handler(FILE *fd, char* filename)
 
     fputc(' ',stdout);
 
-    if (cflag) printf("%d ",byte_count);
-    if (lflag) printf("%d ",line_count);
-    if (wflag) printf("%d ",word_count);
-    if (Lflag) printf("%d ",longest_line_length);
-    if (mflag) printf("%d ",character_count);
+    if (lflag) printf("%zu ",line_count);
+    if (wflag) printf("%zu ",word_count);
+    if (cflag) printf("%zu ",byte_count);
+    if (Lflag) printf("%zu ",longest_line_length);
+    if (mflag) printf("%zu ",character_count);
 
     if (filename) printf("- %s\n",filename);
     return 0;
