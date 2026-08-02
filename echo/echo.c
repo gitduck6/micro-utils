@@ -4,6 +4,10 @@
   * it gives you pattern recognition or something
   * 
   * I mean it DOES work with the tests i did :)
+  *
+  * August 2 2026 : I just rewrote the whole thing
+  * -n just gets rid of the trailing new line
+  *
 */
 
 #include <stdio.h> 
@@ -14,37 +18,32 @@
 #include <unistd.h>
 #endif
 
-int main(int argc, char *argv[1]){
-if (argc < 2)
-  return 0;
-  
-#ifdef __OpenBSD__
-
-  if (pledge("stdio", NULL) == 1){
-    perror("pledge");
-    exit(1);
-  }
-#endif
-int a = 1;
-int arg_count = argc;
-  
-  if (strcmp(argv[1], "-n") == 0){
-    a += 1;
-    while(arg_count > 2){
-      printf("%s ", argv[a]);
-      arg_count -= 1;
-      a += 1;
-  }
-  }
-  else{
-    while(arg_count > 1){
-      printf("%s ", argv[a]);
-      if (arg_count == 2){
-        printf("\n");
-      }
-      arg_count -= 1;
-    a += 1;
+int main(int argc, char **argv)
+{
+    #ifdef __OpenBSD__
+    if (pledge("stdio", NULL) == 1)
+    {
+        perror("pledge");
+        exit(1);
     }
-  }   
-  return 0;
+    #endif
+
+    char nflag = 0;
+    argv++;
+    if (strcmp(*argv, "-n") == 0)
+    {
+        nflag = 1;
+        argv++;
+    }
+
+    while (*argv)
+    {
+        printf("%s ", *argv);
+        argv++;
+    }
+
+    if (!nflag)
+        fputc('\n', stdout);
+
+    return 0;
 }
