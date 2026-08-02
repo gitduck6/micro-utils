@@ -5,23 +5,25 @@
 #include <unistd.h>
 #endif
 
-int main(int argc, char *argv[1]){
-  #ifdef __OpenBSD__
-
-    if(pledge("stdio", NULL) ==1){
-      perror("pledge");
-      exit(1);
+int main(int argc, char **argv)
+{
+#ifdef __OpenBSD__
+    if(pledge("stdio", NULL) ==1)
+    {
+        perror("pledge");
+        exit(1);
     }
-  #endif
+#endif
 
-  char * word;
+    char * word;
 
-  if (argc < 2)
-    word = "y";
-  else word = argv[1];
+    if (argc < 2)
+        word = "y";
+    else word = argv[1];
 
-  while (1 == 1){
-    printf("%s\n", word);
-  }
-return 0;
+    while (1) // while (1 == 1) ts aint rust my guy
+    {
+        printf("%s\n", word);
+    }
+    return 0;
 }
