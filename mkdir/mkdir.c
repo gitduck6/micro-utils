@@ -12,7 +12,7 @@ static int p_mkdir(char *directories, mode_t mode);
 int main(int argc, char ** argv)
 {
     int pflag = 0, vflag = 0;
-    int mode = 0755;
+    mode_t mode = 0777 & ~umask(0);
 
     int c;
     while ((c = getopt(argc, argv, "pvm:")) != -1)
