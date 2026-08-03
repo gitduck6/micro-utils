@@ -49,7 +49,14 @@ int main(int argc, char ** argv)
 
     while (*argv)
     {
-        mkdir(*argv, mode);
+        if (mkdir(*argv, mode) != 0)
+        {
+            perror("mkdir");
+        }
+        else if (vflag)
+        {
+            printf("created directory '%s'\n", *argv);
+        }
         argv++;
     }
 
