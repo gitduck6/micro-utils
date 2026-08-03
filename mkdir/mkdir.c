@@ -5,8 +5,9 @@
 #include <sys/stat.h>
 
 
-static mode_t arr_to_mode(char *arr, char * status);
 static inline int is_octal(char c);
+static mode_t arr_to_mode(char *arr, char * status);
+static int p_mkdir(char *directories);
 
 int main(int argc, char ** argv)
 {
@@ -77,4 +78,9 @@ static mode_t arr_to_mode(char *arr, char * status)
         *status = 2;
 
     return mode;
+}
+
+static int p_mkdir(char *directories)
+{
+    return 1;
 }
