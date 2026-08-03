@@ -7,7 +7,7 @@
 
 static inline int is_octal(char c);
 static mode_t arr_to_mode(char *arr, char * status);
-static int p_mkdir(char *directories);
+static int p_mkdir(char *directories, mode_t mode);
 
 int main(int argc, char ** argv)
 {
@@ -93,7 +93,7 @@ static mode_t arr_to_mode(char *arr, char * status)
     return mode;
 }
 
-static int p_mkdir(char *directories)
+static int p_mkdir(char *directories, mode_t mode)
 {
     return 1;
 }
