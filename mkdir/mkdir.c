@@ -44,15 +44,21 @@ int main(int argc, char ** argv)
         }
     }
 
+    argv += optind;
+    argc -= optind;
+
+    while (*argv)
+    {
+
+        argv++;
+    }
+
     return 0;
 }
 
 static inline int is_octal(char c)
 {
-    if ((c >= '0') && (c <= '7'))
-        return 1;
-
-    return 0;
+    return (c >= '0') && (c <= '7');
 }
 
 
