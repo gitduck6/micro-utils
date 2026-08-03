@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
 
     while (*argv)
     {
-
+        mkdir(*argv, mode);
         argv++;
     }
 
