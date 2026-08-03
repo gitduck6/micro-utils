@@ -5,13 +5,13 @@
 #include <sys/stat.h>
 
 
-mode_t arr_to_mode(char *arr, char * status);
-int is_octal(char c);
+static mode_t arr_to_mode(char *arr, char * status);
+static inline int is_octal(char c);
 
 int main(int argc, char ** argv)
 {
     int pflag = 0, vflag = 0;
-
+    int mode = 0755;
 
     int c;
     while ((c = getopt(argc, argv, "pvm:")))
@@ -25,6 +25,7 @@ int main(int argc, char ** argv)
                 vflag = 1;
                 break;
             case 'm':
+
                 break;
             default:
                 fprintf(stderr, "Usage : %s -[pv] [directories]\n", argv[0]);
@@ -37,7 +38,7 @@ int main(int argc, char ** argv)
     return 0;
 }
 
-int is_octal(char c)
+static inline int is_octal(char c)
 {
     if ((c >= '0') && (c <= '7'))
         return 1;
@@ -46,7 +47,7 @@ int is_octal(char c)
 }
 
 
-mode_t arr_to_mode(char *arr, char * status)
+static mode_t arr_to_mode(char *arr, char * status)
 {
     mode_t mode = 0;
     while (*arr)
