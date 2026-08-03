@@ -15,7 +15,7 @@ int main(int argc, char ** argv)
     int mode = 0755;
 
     int c;
-    while ((c = getopt(argc, argv, "pvm:")))
+    while ((c = getopt(argc, argv, "pvm:")) != -1)
     {
         switch (c)
         {
@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
                 mode = arr_to_mode(optarg, &status);
                 if (status)
                 {
-                    fprintf(stderr, "Ambigious mode: %s", optarg);
+                    fprintf(stderr, "Ambigious mode: %s\n", optarg);
                     return 1;
                 }
                 break;
