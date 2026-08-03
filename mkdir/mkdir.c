@@ -25,12 +25,20 @@ int main(int argc, char ** argv)
                 vflag = 1;
                 break;
             case 'm':
-
+            {
+                char status;
+                mode = arr_to_mode(optarg, &status);
+                if (status)
+                {
+                    fprintf(stderr, "Ambigious mode: %s", optarg);
+                    return 1;
+                }
                 break;
+            }
             default:
                 fprintf(stderr, "Usage : %s -[pv] [directories]\n", argv[0]);
                 fprintf(stderr, "Usage : %s -[pv] -m [mode] [directories]\n", argv[0]);
-                return 1;
+                return 2;
                 break;
         }
     }
