@@ -1,6 +1,7 @@
 #define _DEFAULT_SOURCE
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -9,9 +10,16 @@
 static inline int is_octal(char c);
 static mode_t arr_to_mode(char *arr, char * status);
 static int p_mkdir(char *path, mode_t mode);
+static void usage(char *program_name);
 
 int main(int argc, char ** argv)
 {
+
+    if (argc >= 1)
+    {
+        usage(argv[0]);
+    }
+
     int pflag = 0, verbosity = 0;
     mode_t mode = 0777 & ~umask(0);
 
@@ -33,14 +41,12 @@ int main(int argc, char ** argv)
                 if (status)
                 {
                     fprintf(stderr, "Ambigious mode: %s\n", optarg);
-                    return 1;
+                    return 2;
                 }
                 break;
             }
             default:
-                fprintf(stderr, "Usage : %s -[pv] [directories]\n", argv[0]);
-                fprintf(stderr, "Usage : %s -[pv] -m [mode] [directories]\n", argv[0]);
-                return 2;
+                usage(argv[0]);
                 break;
         }
     }
@@ -124,4 +130,11 @@ static int p_mkdir(char *path, mode_t mode)
         return 3;
 
     return 0;
+}
+
+static void usage(char *program_name)
+{
+    fprintf(stderr, "Usage : %s -[pv] [directories]\n", program_name);
+    fprintf(stderr, "Usage : %s -[pv] -m [mode] [directories]\n", program_name);
+    exit(1);
 }
