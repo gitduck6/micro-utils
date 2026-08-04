@@ -50,7 +50,9 @@ int main(int argc, char ** argv)
 
     while (*argv)
     {
-        if (mkdir(*argv, mode) != 0)
+        int status = (pflag) ? p_mkdir(*argv, mode) : mkdir(*argv, mode);
+
+        if (status != 0)
         {
             perror("mkdir");
         }
