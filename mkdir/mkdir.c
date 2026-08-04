@@ -11,7 +11,7 @@ static int p_mkdir(char *directories, mode_t mode);
 
 int main(int argc, char ** argv)
 {
-    int pflag = 0, vflag = 0;
+    int pflag = 0, verbosity = 0;
     mode_t mode = 0777 & ~umask(0);
 
     int c;
@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
                 pflag = 1;
                 break;
             case 'v':
-                vflag = 1;
+                verbosity = 1;
                 break;
             case 'm':
             {
@@ -53,7 +53,7 @@ int main(int argc, char ** argv)
         {
             perror("mkdir");
         }
-        else if (vflag)
+        else if (verbosity)
         {
             printf("created directory '%s'\n", *argv);
         }
@@ -67,7 +67,6 @@ static inline int is_octal(char c)
 {
     return (c >= '0') && (c <= '7');
 }
-
 
 static mode_t arr_to_mode(char *arr, char * status)
 {
@@ -95,5 +94,7 @@ static mode_t arr_to_mode(char *arr, char * status)
 
 static int p_mkdir(char *directories, mode_t mode)
 {
+    char *p = directories;
+    while (*p++);
     return 1;
 }
