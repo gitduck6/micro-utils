@@ -2,12 +2,13 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
 #include <sys/stat.h>
 
 
 static inline int is_octal(char c);
 static mode_t arr_to_mode(char *arr, char * status);
-static int p_mkdir(char *directories, mode_t mode);
+static int p_mkdir(char *path, mode_t mode);
 
 int main(int argc, char ** argv)
 {
@@ -92,9 +93,33 @@ static mode_t arr_to_mode(char *arr, char * status)
     return mode;
 }
 
-static int p_mkdir(char *directories, mode_t mode)
+static int p_mkdir(char *path, mode_t mode)
 {
-    char *p = directories;
-    while (*p++);
-    return 1;
+    char *p ;
+
+    if (path == NULL || *path == '\0')
+        return 1;
+
+    p = path + (path[0] == '/');
+
+    for (;*p;p++)
+    {
+        if (*p == '/')
+        {
+            *p = '\0';
+
+            if (!mkdir(path,mode) && errno == EEXIST)
+            {
+                *p = '/';
+                return 2;
+            }
+
+            *p = '/';
+        }
+    }
+
+    if (mkdir(path, mode) == -1 && errno != EEXIST)
+        return 3;
+
+    return 0;
 }
