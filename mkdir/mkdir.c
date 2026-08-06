@@ -60,7 +60,7 @@ int main(int argc, char ** argv)
 
         if (status != 0)
         {
-            perror("mkdir");
+            perror(*argv);
         }
         else if (verbosity)
         {
