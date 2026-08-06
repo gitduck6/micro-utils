@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     while (*argv)
     {
 
-        int status = rmdir(*argv);
+        int status = (pflag) ? p_rmdir(*argv) : rmdir(*argv);
 
         if (verbosity && (status == 0))
         {
