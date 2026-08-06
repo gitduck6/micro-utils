@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+int p_rmdir(char * pathname);
 
 int pflag = 0, verbosity = 0;
 int main(int argc, char ** argv)
@@ -45,4 +46,33 @@ int main(int argc, char ** argv)
         argv++;
     }
 
+
+    return 0;
+}
+
+int p_rmdir(char * pathname)
+{
+    char * last_slash = pathname;
+
+    while (*last_slash)
+        last_slash++;
+
+    while (1)
+    {
+        *last_slash = '\0';
+        if (rmdir(pathname) != 0)
+            return 1;
+        *last_slash = '/';
+
+        while ((pathname < last_slash) && (*last_slash != '/'))
+            last_slash--;
+
+        if (pathname > last_slash)
+            break;
+
+        if (pathname == last_slash)
+            break;
+    }
+
+    return 0;
 }
