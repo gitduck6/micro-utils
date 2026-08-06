@@ -36,7 +36,7 @@ int main(int argc, char ** argv)
 
         if (verbosity && (status == 0))
         {
-            printf("rmdir: %s created.\n", *argv);
+            printf("rmdir: %s removed.\n", *argv);
         }
         if (status != 0)
         {
