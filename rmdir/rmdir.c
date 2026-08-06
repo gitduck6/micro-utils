@@ -62,16 +62,13 @@ int p_rmdir(char * pathname)
         *last_slash = '\0';
         if (rmdir(pathname) != 0)
             return 1;
-        *last_slash = '/';
 
         while ((pathname < last_slash) && (*last_slash != '/'))
             last_slash--;
 
-        if (pathname > last_slash)
+        if (pathname >= last_slash)
             break;
 
-        if (pathname == last_slash)
-            break;
     }
 
     return 0;
