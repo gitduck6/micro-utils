@@ -15,7 +15,7 @@ static void usage(char *program_name);
 int main(int argc, char ** argv)
 {
 
-    if (argc >= 1)
+    if (argc <= 1)
     {
         usage(argv[0]);
     }
