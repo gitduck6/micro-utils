@@ -19,10 +19,30 @@ int main(int argc, char ** argv)
                 break;
             default:
                 fprintf(stderr, "Unknown option: \'%c\'\n", (char)opt);
-                fprintf(stderr, "Usage: %s -[pv] [dir1] [dir2]\n", argv[0]);
+                fprintf(stderr, "Usage: %s -[pv] [dir1] [dir2] ...\n", argv[0]);
                 return 1;
                 break;
         }
+    }
+
+    argv += optind;
+    argc -= optind;
+
+    while (*argv)
+    {
+
+        int status = rmdir(*argv);
+
+        if (verbosity && (status == 0))
+        {
+            printf("rmdir: %s created.\n", *argv);
+        }
+        if (status != 0)
+        {
+            perror("rmdir");
+        }
+
+        argv++;
     }
 
 }
